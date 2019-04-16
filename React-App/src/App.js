@@ -12,7 +12,7 @@ class App extends Component {
       searchSku:'',
       searchName:'',
       searchBarcode: '',
-      searchQty: 0,
+      searchQty: '',
       searchWeight: '',
       searchHeight: '',
       searchLength: '',
