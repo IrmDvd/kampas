@@ -17,6 +17,8 @@ public class ProductModel {
 	private Long idProduct;
 	private String sku;
 	private int qty;
+	private String name;
+	private String barcode;
 	private double height;
 	private double weight;
 	private double length;
@@ -38,16 +40,16 @@ public class ProductModel {
 		this.width = width;
 	}
 
-	public Long getIdProduct() {
-		return idProduct;
+	public String getIdProduct() {
+		return String.valueOf(idProduct);
 	}
 
 	public void setIdProduct(Long idProduct) {
 		this.idProduct = idProduct;
 	}
 
-	public Date getDt() {
-		return dt;
+	public String getDt() {
+		return String.valueOf(dt);
 	}
 
 	public String getSku() {
@@ -58,44 +60,60 @@ public class ProductModel {
 		this.sku = sku;
 	}
 
-	public int getQty() {
-		return qty;
+	public String getQty() {
+		return String.valueOf(qty);
 	}
 
 	public void setQty(int qty) {
 		this.qty = qty;
 	}
 
-	public double getHeight() {
-		return height;
+	public String getHeight() {
+		return String.valueOf(height);
 	}
 
 	public void setHeight(double height) {
 		this.height = height;
 	}
 
-	public double getWeight() {
-		return weight;
+	public String getWeight() {
+		return String.valueOf(weight);
 	}
 
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
 
-	public double getLength() {
-		return length;
+	public String getLength() {
+		return String.valueOf(length);
 	}
 
 	public void setLength(double length) {
 		this.length = length;
 	}
 
-	public double getWidth() {
-		return width;
+	public String getWidth() {
+		return String.valueOf(width);
 	}
 
 	public void setWidth(double width) {
 		this.width = width;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
 	}
 
 }
