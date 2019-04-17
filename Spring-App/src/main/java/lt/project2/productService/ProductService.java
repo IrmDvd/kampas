@@ -14,4 +14,5 @@ public interface ProductService {
 
 	ProductModel getProductById(Long idProduct);
 
+	ProductModel editProductById(Long idProduct, ProductModel productEdited);
 }

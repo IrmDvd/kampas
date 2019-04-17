@@ -1,19 +1,14 @@
 package lt.project2.productControler;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lt.project2.model.ProductModel;
 import lt.project2.productService.ProductService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value = "b")
 @RestController
@@ -21,32 +16,41 @@ import lt.project2.productService.ProductService;
 @CrossOrigin
 public class ProductControler {
 
-	@Autowired
-	ProductService servicepr;
+    // ar ne geriau visur grazinti ResponseEntity? Su headeriais, HTTP.responsais? Nors gal musu atveju nebutinai
 
-	@RequestMapping(method = RequestMethod.GET)
-	@ApiOperation(value = "Get products", notes = "Returns all products")
-	public List<ProductModel> getAllProducts() {
 
-		return servicepr.getProducts();
+    @Autowired
+    ProductService servicepr;
 
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation(value = "Get products", notes = "Returns all products")
+    public List<ProductModel> getAllProducts() {
 
-	@RequestMapping(method = RequestMethod.POST)
-	public void addToProducts(@RequestBody ProductModel pr) {
+        return servicepr.getProducts();
 
-		servicepr.addProduct(pr);
-	}
+    }
 
-	@RequestMapping(value = "/{idProduct}", method = RequestMethod.GET)
-	public ProductModel getProductById(@PathVariable Long idProduct) {
+    @RequestMapping(method = RequestMethod.POST)
+    public void addToProducts(@RequestBody ProductModel pr) {
 
-		return servicepr.getProductById(idProduct);
-	}
+        servicepr.addProduct(pr);
+    }
 
-	@RequestMapping(value = "/{idProduct}", method = RequestMethod.DELETE)
-	public void deleteFromProducts(@PathVariable Long idProduct) {
+    @RequestMapping(value = "/{idProduct}", method = RequestMethod.GET)
+    public ProductModel getProductById(@PathVariable Long idProduct) {
 
-		servicepr.deleteProduct(idProduct);
-	}
+        return servicepr.getProductById(idProduct);
+    }
+
+    @PutMapping(value = "/{idProduct}")
+    public ProductModel editProductById(@PathVariable Long idProduct, @RequestBody ProductModel productEdited) {
+
+        return servicepr.editProductById(idProduct, productEdited);
+    }
+
+    @RequestMapping(value = "/{idProduct}", method = RequestMethod.DELETE)
+    public void deleteFromProducts(@PathVariable Long idProduct) {
+
+        servicepr.deleteProduct(idProduct);
+    }
 }
