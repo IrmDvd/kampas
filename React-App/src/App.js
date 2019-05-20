@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios'; 
-
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      products: []
-    };
+
+    this.state = {  
+      products: [],
+      searchId: '',
+      searchSku:'',
+      searchBarcode: '',
+      searchQty: '',
+      searchQtyTo: ''
+    }
+    //  this.searchQty = this.updateSearchQty.bind(this);
   }
 
   componentDidMount() {
@@ -20,76 +25,130 @@ class App extends Component {
       });
   }
 
+  updateSearchId (event) {
+    // alert(event.target.value.substr(0,8));
+      this.setState({searchId: event.target.value.substr(0,8)});
+                                                                
+   }
+
+  updateSearch (event) {
+    //alert(event.target.value.substr(0,8));
+     this.setState({search: event.target.value.substr(0,10)});  // turetu paimti formos key name ir priristi konkrecia paieska
+                                                               // this.setState([event.target.name]: event.target.value.substr(0,8)});
+ }
+
+
+updateSearchBarcode (event) {
+  // alert(event.target.value.substr(0,8));
+    this.setState({searchBarcode: event.target.value.substr(0,13)});
+                                                              
+ }
+
+updateSearchSku (event) {
+ // alert(event.target.value.substr(0,8));
+   this.setState({searchSku: event.target.value.substr(0,8)}); 
+}
+
+ updateSearchQty (event) {
+  // alert(event.target.value.substr(0,8));
+    this.setState({searchQty: event.target.value.substr(0,8)});
+                                                              
+ }
+ updateSearchQtyTo (event) {
+  // alert(event.target.value.substr(0,8));
+    this.setState({searchQtyTo: event.target.value.substr(0,8)});
+                                                              
+ } 
+
+
+
+
+
   render() {
+
+    const filteredProducts = this.state.products.filter(products => {
+      const queryId = this.state.searchId;
+      const queryName = this.state.searchName;
+      const querySku = this.state.searchSku;
+      const queryBarcode = this.state.searchBarcode;
+      const queryQty = this.state.searchQty;
+      const queryQtyTo = this.state.searchQtyTo;
+     return (
+    
+        // products.idProduct.indexOf(queryId) >= 0 &&
+        products.sku.toLowerCase().indexOf(querySku.toLowerCase()) >= 0 &&
+        products.barcode.indexOf(queryBarcode) >= 0 &&
+        products.qty >= queryQty 
+        
+        // products.name.toLowerCase().indexOf(queryName.toLowerCase()) >= 0
+      )
+    });
     return (
 
-      
-      <div className="container">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-        <a class="nav-item nav-link active bg-light text-warning" href="">Home</a>
-        <a class="nav-item nav-link active bg-light text-warning" href="/create">Create Product</a> 
-        <button id="logout" type="button" class="btn btn-outline-secondary">Logout</button>
-    </div>
-</div>
-</nav>
-        <div className="panel panel-default">
-   
+        <div className="container-fluid">
+        <div className="panel panel-default">  
           <div className="panel-body">
+
           <button type="submit" className="btn btn-default">Search</button>
-            <table className="table table-stripe">
+
+
+      <table className="table table-stripe">
               <thead>
-                <tr>
+          <tr>
                 <th><div className="form-group">
-                <input type="text" className="form-control" name="sku" value={this.state.products.sku} onChange={this.onChange} placeholder="id" />
-              </div></th>
-                  <th><div className="form-group">
-                <input type="text" className="form-control" name="sku" value={this.state.products.sku} onChange={this.onChange} placeholder="sku" />
-              </div></th>
-                  <th><div className="form-group">
-                <input type="text" className="form-control" name="sku" value={this.state.products.sku} onChange={this.onChange} placeholder="qty" />
-              </div></th>
-                  <th><div className="form-group">
-                <input type="text" className="form-control" name="sku" value={this.state.products.sku} onChange={this.onChange} placeholder="weight" />
-              </div></th>
-                  <th><div className="form-group">
-                <input type="text" className="form-control" name="sku" value={this.state.products.sku} onChange={this.onChange} placeholder="heigth" />
-              </div></th>
-                  <th><div className="form-group">
-                <input type="text" className="form-control" name="sku" value={this.state.products.sku} onChange={this.onChange} placeholder="length" />
-              </div></th>
-                  <th><div className="form-group">
-                <input type="text" className="form-control" name="sku" value={this.state.products.sku} onChange={this.onChange} placeholder="width" />
-              </div></th>
-                  <th><div className="form-group">            
-                <input type="text" className="form-control" name="sku" value={this.state.products.sku} onChange={this.onChange} placeholder="Date" />
-              </div></th>
+              <div className="search-panel d-flex">          
+                   <input type="number" className="form-control" name="idProduct" 
+                    value={this.state.searchId} onChange={this.updateSearchId.bind(this)} 
+                    placeholder="id" />
+              </div>
+                </div>
+              </th>  
+              <th><div className="form-group">
+               <div className="search-panel d-flex">          
+                   <input type="text" className="form-control" name="sku" 
+                    value={this.state.searchSku} onChange={this.updateSearchSku.bind(this)} 
+                    placeholder="sku" />
+              </div>
+                </div>
+              </th>   
+              <th>
+                <div className="form-group">
+               <div className="search-panel d-flex">          
+                    <input type="text" className="form-control" name="barcode" 
+                    value={this.state.searchBarcode} onChange={this.updateSearchBarcode.bind(this)} 
+                    placeholder="barcode"/>
+              </div>
+                </div>
+              </th>   
+              <th>
+                <div className="form-group">
+               <div className="search-panel d-flex">
+               <div className="row">          
+                    <input type="text" className="form-control m-2" name="qty" 
+                    value={this.state.searchQty} onChange={this.updateSearchQty.bind(this)} 
+                    placeholder="qty"/>
+                    <input type="text" className="form-control" name="qty" 
+                    value={this.state.searchQtyTo} onChange={this.updateSearchQtyTo.bind(this)} 
+                    placeholder="To:"/>
+                    </div>
+              </div>
+                </div>
+              </th>   
                 </tr>
                 <tr>
                   <th>id</th>
                   <th>sku</th>
+                  <th>barcode</th>
                   <th>qty</th>
-                  <th>weight</th>
-                  <th>height</th>
-                  <th>length</th>
-                  <th>width</th>
-                  <th>Date Created</th>
-
                 </tr>
               </thead>
               <tbody>
-                {this.state.products.map(c =>
-                  <tr>
-                    <td><Link to={`/show/${c.idProduct}`}>{c.idProduct}</Link></td>
-                    <td>{c.sku}</td>
-                    <td>{c.qty}</td>
-                    <td>{c.weight} <span>kg</span></td>
-                    <td>{c.height} <span>cm</span></td>
-                    <td>{c.length} <span>cm</span></td>
-                    <td>{c.width} <span>cm</span></td>
-                    <td>{c.dt}</td>
+                {filteredProducts.map(c =>
+                  <tr key={c.idProduct}>
+                    <td key={1}><Link to={`/show/${c.idProduct}`}>{c.idProduct}</Link></td>
+                    <td key={2}>{c.sku}</td>
+                    <td key={3}>{c.barcode}</td>
+                    <td key={4}>{c.qty}</td>
                     <td></td>
                   </tr>
                 )}
@@ -113,6 +172,7 @@ class App extends Component {
           </div>
         </div>
       </div>
+    
     );
   }
 }

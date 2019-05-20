@@ -7,58 +7,88 @@ class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: {}
+      product: {
+        idProduct: '',  
+        sku: '',
+        barcode: '',
+        qty: '' 
+      }
     };
   }
-
   componentDidMount() {
-    axios.get('/product/'+this.props.match.params.idProduct)
-      .then(res => {
-        this.setState({ products: res.data });
-        console.log(this.state.products);
-      });
+    
+
+    axios.get('http://localhost:8080/product/'+this.props.match.params.id)
+    .then(res => {
+      this.setState({ product: res.data });
+      console.log(this.state.product);
+    });
   }
 
   onChange = (e) => {
-    const state = this.state.products
+    // e.preventDefault();
+    const state = this.state.product
     state[e.target.name] = e.target.value;
-    this.setState({products:state});
+    // this.setState({product:state});
   }
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault();
+    const{ sku, barcode, qty} = this.state; 
+   axios.put('http://localhost:8080/product + id', { sku,barcode, qty})
+     .then((result) => {
+       result.props.history.push("/")
+     })
+    };
 
-    const { sku, qty} = this.state.contact;
-
-    axios.put('http://localhost:8080/product'+this.props.match.params.id, { sku, qty})
-      .then((result) => {
-        this.props.history.push("/show/"+this.props.match.params.id)
-      });
-  }
 
   render() {
+
     return (
-      <div class="container">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
+      <div className="container">
+        <div className="panel panel-default">
+          <div className="panel-heading">
+            <h3 className="panel-title">
               EDIT Product
             </h3>
           </div>
-          <div class="panel-body">
-            <h4><Link to={`/show/${this.state.products.id}`}><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Back to Product details</Link></h4>
+
+          <div className="panel-body">
+
+            <h4><Link to={"/"}><span className="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Back to Product details</Link></h4>
             <form onSubmit={this.onSubmit}>
-              <div class="form-group">
-                <label for="sku">SKU:</label>
-                <input type="text" class="form-control" name="sku" value={this.state.products.sku} onChange={this.onChange} placeholder="sku" />
+
+              <div className="form-group">
+              <div className="row m-2">Product id: {this.state.product.idProduct}</div>
+                <label htmlFor="sku">Sku:</label>
+                <input type="text" className="form-control" name="sku" onChange={this.onChange} placeholder={this.state.product.sku}/>
               </div>
-              <div class="form-group">
-                <label for="qty">Address:</label>
-                <input type="text" class="form-control" name="qty" value={this.state.products.qty} onChange={this.onChange} placeholder="Address" />
+              <div className="form-group">
+                <label htmlFor="sku">Barcode:</label>
+                <input type="text" className="form-control" name="barcode" onChange={this.onChange} placeholder={this.state.product.barcode}/>
               </div>
-              <button type="submit" class="btn btn-default">Update</button>
+
+              <div className="form-group">
+                <label htmlFor="qty">Qty:</label>
+                <input type="text" className="form-control" name="qty" onChange={this.onChange} placeholder={this.state.product.qty} />
+              </div>
+              <button type="submit" className="btn btn-default">Update</button>
+              {/* <button onClick={e => this.onSubmit(e)}className="btn btn-default">Submit</button> */}
+              {/* <button onClick={this.delete.bind(this, this.state.product.idProduct)} className="btn btn-danger">Delete</button> */}
+
             </form>
+            <div className="panel-body">
+            <h4>Product details</h4>
+            <dl>               
+            <dt>id: {this.state.product.idProduct}</dt>
+            <dt>SKU: {this.state.product.sku}</dt>
+            <dt>Barcode: {this.state.product.barcode}</dt>
+            <dt>QTY: {this.state.product.qty}</dt>
+            </dl>
           </div>
+
+          </div>
+
         </div>
       </div>
     );

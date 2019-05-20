@@ -43,12 +43,8 @@ class Show extends Component {
             <dl>               
             <dt>id: {this.state.product.idProduct}</dt>
             <dt>SKU: {this.state.product.sku}</dt>
+            <dt>Barcode: {this.state.product.barcode}</dt>
             <dt>QTY: {this.state.product.qty}</dt>
-            <dt>Height: {this.state.product.height}</dt>
-            <dt>Width: {this.state.product.width}</dt>
-            <dt>Length: {this.state.product.length}</dt>
-            <dt>Weight:{this.state.product.weight}</dt>
-            <dt>Date Created: {this.state.product.dt}</dt>
             </dl>
             <Link to={`/edit/${this.state.product.idProduct}`} className="btn btn-success">Edit</Link>&nbsp;
             <button onClick={this.delete.bind(this, this.state.product.idProduct)} className="btn btn-danger">Delete</button>
