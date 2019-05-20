@@ -3,7 +3,10 @@ package lt.project2.productService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import lt.project2.model.ProductModel;
 import lt.project2.productRepository.ProductRepository;
@@ -31,8 +34,24 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public ProductModel getProductById(Long idProduct) {
-		return repopr.findById(idProduct).get();
+	public ResponseEntity<ProductModel> getProductById(Long idProduct) {
+		if(idProduct <= 1
+				) {
+			System.out.println("Ne tas no");
+			return ResponseEntity.badRequest().body(repopr.findById(idProduct).get());
+		} else {}
+		return ResponseEntity.ok(repopr.findById(idProduct).get());
 	}
 
-}
+	@Override
+	public ProductModel editProductById(Long idProduct, ProductModel productEdited) {
+		return repopr.findById(idProduct).map(product -> {
+		product.setSku(productEdited.getSku());
+		product.setBarcode(productEdited.getBarcode());
+		product.setQty(productEdited.getQty());
+		return repopr.save(product);
+		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+	}
+	}
+
+
